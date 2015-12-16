@@ -1,2 +1,2 @@
-# siit-tm-java2
-Sample repo for SIIT TM Java2
+# siit-tm-java-s2-training
+Sample repo for SIIT TM Java S2 Training
