@@ -1,0 +1,8 @@
+Car
+It creates a Car abstraction with relevant data and operation. It promotes
+cohesion, encapsulation and further reuse.
+ 
+Person
+It creates a Person abstraction with relevant data and operation. It promotes
+cohesion, encapsulation and further reuse. It uses association (person has a
+car)

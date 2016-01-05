@@ -1,0 +1,3 @@
+The class creates a PersonCar abstraction respecting encapsulation, but with
+ * a low level of granularity which will not facilitate further reuse. Cohesion
+ * is also low.

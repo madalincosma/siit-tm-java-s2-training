@@ -1,0 +1,7 @@
+CarPersonData
+Wrong way of abstracting in OOP because data sits alone. It also brakes
+ encapsulation because data/state is exposed.
+
+CarPersonOperations
+Wrong way of abstracting in OOP because operations sit alone. It makes you
+think this is a procedural approach. 
