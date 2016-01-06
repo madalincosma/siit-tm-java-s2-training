@@ -1,0 +1,67 @@
+#sum100
+int i := 1;
+int sum := 0;
+while i < 101 do // i <= 100
+  sum := sum + i;
+  i := i + 1;
+end while
+print sum
+
+
+#smallest
+int[] array = {};//some values
+int min := array[0];
+int arrLength := array.length;
+int counter := 0;
+while counter < array.length do
+	if min > array[counter] then
+		min := array[counter];
+	endif;
+	counter := counter + 1;
+end while
+print min		   
+
+#max digit
+int number;//some value
+int maxDigit := number modulo 10;
+number := number div 10;
+while number > 0 do
+	int digit = number modulom 10;
+	number := number div 10;
+	if (digit > maxDigit) then
+		maxDigit := digit;
+	endif;	
+end while
+print maxDigit
+
+#palindrom
+int originalNumber;//some value
+int number := originalNumber;
+int reversedNumber : = 0;
+while number > 0 do	
+   remainder := number modulo 10;
+   reversedNumber := reversedNumber * 10 + remainder;
+   number := number div 10;	
+end while
+if originalNumber == reversedNumber then
+	print "palindrom";
+else
+	print "nepalindrom";
+endif;	
+
+#primes lower than
+int n;//some value
+for int index := 1 to index < valueGivenNumber do 
+   boolean isPrime := true;
+   for int index1 := 2 to (index1 < (index div 2)) do 
+       	if(index modulo index1 == 0)
+       		isPrime := false;
+         	break;
+       	end if;	               	
+		index := index + 1; 
+    end for;           
+    if (isPrime == true) then
+        print index + " is prime";
+    end if;    	
+    index := index + 1;   
+end for;            
