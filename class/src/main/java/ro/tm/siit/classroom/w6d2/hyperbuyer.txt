@@ -1,0 +1,20 @@
+de.audi.hyperbuyer
+HyperBuyerApp - main class
+AutoPart (String name, int qualityLevel, float price, int monthlyQuantity)
+SupplierAutoPart : AutoPart (int maxMonthlyQuantity)
+Supplier (String name, SupplierAutoPart[] autoParts,)
+Car (String name, CarAutoPart[] autoParts)
+CarAutoPart : AutoPart (int  minMonthlyQuantity)
+
+// matching logic
+for (Car car:  cars} {
+	for (AutoPart autoPart : car.getAutoParts()) {
+		// select supplier
+		for (Supplier supplier : suppliers) {
+			//check if it offers auto part
+			//if yes check if meets criteria
+		}
+	}
+}
+
+what additional entities can be modelled to distribute the logic instead of having everything in app class?
