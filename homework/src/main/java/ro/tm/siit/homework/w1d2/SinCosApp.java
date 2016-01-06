@@ -1,6 +1,6 @@
-package ro.tm.siit.homework.w1;
+package ro.tm.siit.homework.w1d2;
 
-public class SinCos {
+public class SinCosApp {
 	
 	public static void main(String... args) {
 		double x = Double.parseDouble(args[0]);
