@@ -16,13 +16,12 @@ public class PersonsApp {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Person p = new Person(11);
+		Person p = new Person(11);		
+		Person p2 = new Person();
 		System.out.println(p);
 		p.setAge(12);
 		System.out.println(p);
-		
-		Person p2 = new Person();
-		System.out.println(p);
+		System.out.println(p2);
 		
 	}
 
