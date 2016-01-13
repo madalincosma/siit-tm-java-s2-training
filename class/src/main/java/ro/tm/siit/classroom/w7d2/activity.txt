@@ -1,0 +1,7 @@
+Implement Shape hierarchy having an id/name and offering operations like 
+-perimeter
+-area
+
+implement it for square, circle,  right triangle and create an application that
+uses polymorphism.
+create 3 squares, 2 circles and one right triangle.
