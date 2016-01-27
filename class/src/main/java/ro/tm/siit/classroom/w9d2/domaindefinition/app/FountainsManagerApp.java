@@ -14,7 +14,7 @@ import ro.tm.siit.classroom.w9d2.domaindefinition.Water;
  * @author mco
  *
  */
-public class FountainsManager {
+public class FountainsManagerApp {
 
 	/**
 	 * the starting point in a java application; it demonstrates access control
