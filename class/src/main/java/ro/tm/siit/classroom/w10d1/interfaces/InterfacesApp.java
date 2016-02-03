@@ -12,7 +12,7 @@ import ro.tm.siit.classroom.w10d1.interfaces.sub.PublicInterface;
 public class InterfacesApp {
 
 	/**
-	 * entry point in app; it shows can interfaces can be used and what method
+	 * entry point in app; it shows how interfaces can be used and what method
 	 * are available.
 	 * 
 	 * @param args
