@@ -1,4 +1,4 @@
-package ro.tm.siit.classroom.w11d2;
+package ro.tm.siit.classroom.w12d2;
 
 public class Point {
 	
