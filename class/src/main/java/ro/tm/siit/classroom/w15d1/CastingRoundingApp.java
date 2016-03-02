@@ -1,4 +1,4 @@
-package ro.tm.siit.classroom.w14d2;
+package ro.tm.siit.classroom.w15d1;
 
 
 import ro.tm.siit.classroom.w9d1.multiclass.Person;
