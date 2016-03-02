@@ -12,7 +12,7 @@ import ro.tm.siit.homework.w11d2.trainingcatalog.Messenger;
 public class Trainee extends Person {
 
 	/**
-	 * Constructor for class Trainee that allows settign a name
+	 * Constructor for class Trainee that allows setting a name
 	 * @param name the name of the trainee
 	 * @param messenger 
 	 */

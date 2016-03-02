@@ -49,6 +49,9 @@ public class TrainingCatalogApp {
 		ciprian.sendFeedback(trainer);
 		radu.sendFeedback(siteManager);
 		siteManager.sendFeedback(trainer);
+		
+		//ciprian.sendFeedback(radu);
+		//ciprian.sendFeedback(ciprian);
 
 	}
 

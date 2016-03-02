@@ -35,6 +35,6 @@ public abstract class Person implements FeedbackSender {
 	 * @see ro.tm.siit.homework.w11d2.trainingcatalog.person.FeedbackSender#sendFeedback(ro.tm.siit.homework.w11d2.trainingcatalog.person.Person)
 	 */
 	@Override
-	public abstract void sendFeedback(Person trainer);
+	public abstract void sendFeedback(Person to);
 
 }

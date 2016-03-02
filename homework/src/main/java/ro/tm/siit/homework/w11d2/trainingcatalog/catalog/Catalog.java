@@ -49,7 +49,8 @@ public class Catalog implements TrainerCatalogInterface {
 	public void addGrade(String name, int grade) {
 		TraineeGrades participant = find(name);
 		participant.addGrade(grade);
-		messenger.sendMessage(participant.trainee.getEmail(), "New grade", "Your new grade is " + grade);
+		Person trainee = participant.trainee;
+		messenger.sendMessage(trainee.getEmail(), "New grade", "Your new grade is " + grade);
 
 	}
 
@@ -74,7 +75,7 @@ public class Catalog implements TrainerCatalogInterface {
 	 * printCatalog()
 	 */
 	public void printCatalog() {
-		System.out.println("Catalog " + name + " has " + trainees.length + " trainees");
+		System.out.println("Catalog " + name + " has " + traineesCount + " trainees");
 		for (TraineeGrades t : trainees) {
 			if (t != null) {
 				System.out.println(t.trainee.getName() + " " + t.getAvgGrade());
