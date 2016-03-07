@@ -50,9 +50,9 @@ public class Course {
 	}
 
 	private Student find(String studentName) {
-		for (Student s : students) {
-			if (s.getName().equals(studentName)) {
-				return s;
+		for (int i=0; i < studentCount; i++) {
+			if (students[i].getName().equals(studentName)) {
+				return students[i];
 			}
 		}
 		return null;
