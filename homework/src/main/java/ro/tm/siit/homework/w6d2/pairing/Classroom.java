@@ -35,16 +35,6 @@ public class Classroom {
 
 	}
 
-	private Course find(String courseName) {
-		for (Course c : courses) {
-			if (c.getName().equals(courseName)) {
-				return c;
-			}
-		}
-
-		return null;
-	}
-
 	public void printStatus(String courseName) {
 		System.out.println("Classroom " + name);
 		Course course = find(courseName);
@@ -53,6 +43,7 @@ public class Classroom {
 
 	public void printStatus() {
 		System.out.println("Classroom " + name);
+		sort();
 		for (Course course : courses) {
 			System.out.println(course);
 		}
@@ -61,6 +52,31 @@ public class Classroom {
 	public void doPairing(String courseName) {
 		Course course = find(courseName);
 		course.doPairing();
+	}
+
+	private void sort() {
+		boolean changed = true;
+		while (changed) {
+			changed = false;
+			for (int i =0 ; i < courses.length - 1; i++) {
+				if (courses[i].getAvgGrade() < courses[i+1].getAvgGrade()) {
+					Course temp = courses[i];
+					courses[i] = courses[i+1];
+					courses[i+1]=temp;
+					changed = true;
+				}
+			}			
+		}
+	}
+
+	private Course find(String courseName) {
+		for (Course c : courses) {
+			if (c.getName().equals(courseName)) {
+				return c;
+			}
+		}
+
+		return null;
 	}
 
 }

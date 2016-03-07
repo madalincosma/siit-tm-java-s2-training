@@ -8,7 +8,7 @@ package ro.tm.siit.homework.w6d2.pairing;
  *
  */
 public class Course {
-	private Student[] students = new Student[10];
+	private Student[] students = new Student[30];
 	private int studentCount;
 	private String name;
 
@@ -73,12 +73,12 @@ public class Course {
 		}
 	}
 
-	private float getAvgGrade() {
+	public float getAvgGrade() {
 		float avg = 0;
 		for (int i=0 ; i < studentCount; i++) {
 			avg += students[i].getAvgGrade();
 		}
-		return avg / students.length;
+		return avg / studentCount;
 	}
 
 }
