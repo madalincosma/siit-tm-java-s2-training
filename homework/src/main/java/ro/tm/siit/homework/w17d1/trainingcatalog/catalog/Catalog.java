@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 import ro.tm.siit.homework.w17d1.trainingcatalog.Messenger;
 import ro.tm.siit.homework.w17d1.trainingcatalog.SiteManagerCatalogInterface;
 import ro.tm.siit.homework.w17d1.trainingcatalog.TraineeCatalogInterface;
@@ -23,16 +26,18 @@ import ro.tm.siit.homework.w17d1.trainingcatalog.person.Trainer;
  * @author mcosma
  *
  */
-public final class Catalog implements SiteManagerCatalogInterface, TrainerCatalogInterface, TraineeCatalogInterface, Serializable {
+public final class Catalog
+		implements SiteManagerCatalogInterface, TrainerCatalogInterface, TraineeCatalogInterface, Serializable {
 
-	private enum Status {CREATED, STARTED, FINISHED};
-	
+	private enum Status {
+		CREATED, STARTED, FINISHED
+	};
+
 	private Map<Trainee, List<Integer>> trainees = new HashMap<Trainee, List<Integer>>();
 	private String name;
 	private transient Messenger messenger;
 	private Trainer trainer;
 	private Status status = Status.CREATED;
-	
 
 	/**
 	 * @param name
@@ -49,8 +54,6 @@ public final class Catalog implements SiteManagerCatalogInterface, TrainerCatalo
 		this.messenger = messenger;
 	}
 
-	
-
 	public void setMessenger(Messenger messenger) {
 		this.messenger = messenger;
 		for (Trainee t : trainees.keySet()) {
@@ -65,7 +68,7 @@ public final class Catalog implements SiteManagerCatalogInterface, TrainerCatalo
 	 *            the trainee
 	 */
 	public void addTrainee(Trainee t) {
-		if (status!=Status.CREATED) {
+		if (status != Status.CREATED) {
 			throw new IllegalStateException("training already started");
 		}
 		this.trainees.put(t, new ArrayList<Integer>());
@@ -90,7 +93,7 @@ public final class Catalog implements SiteManagerCatalogInterface, TrainerCatalo
 	 * addGrade(java.lang.String, int)
 	 */
 	public void addGrade(String name, int grade) {
-		if (status!=Status.STARTED) {
+		if (status != Status.STARTED) {
 			throw new IllegalStateException("training not started");
 		}
 		if (grade < 0 || grade > 10) {
@@ -129,6 +132,29 @@ public final class Catalog implements SiteManagerCatalogInterface, TrainerCatalo
 		for (Trainee trainee : trainees.keySet()) {
 			System.out.println(trainee.getName() + " " + getAvgGrade(trainee));
 		}
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ro.tm.siit.homework.w10d2.trainingcatalog.SiteManagerCatalogInterface#
+	 * displayCatalog(JTable)
+	 */
+	public void displayCatalog(JTable catalog) {
+		DefaultTableModel model = (DefaultTableModel) catalog.getModel();
+		model.setColumnCount(0);
+		model.setRowCount(0);
+		model.addColumn("Name");
+		model.addColumn("Avg Grade");
+		int row = 0;
+		for (Trainee trainee : trainees.keySet()) {
+			Object[] rowData = new Object[] { trainee.getName(), getAvgGrade(trainee) };
+			model.addRow(rowData);
+			row++;
+		}
+		model.fireTableStructureChanged();
 
 	}
 

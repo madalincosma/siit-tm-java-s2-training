@@ -4,13 +4,6 @@
 package ro.tm.siit.homework.w17d1.trainingcatalog;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import ro.tm.siit.homework.w17d1.trainingcatalog.catalog.Catalog;
 import ro.tm.siit.homework.w17d1.trainingcatalog.messenger.SimpleMessenger;
@@ -32,21 +25,20 @@ public class PersistentTrainingCatalogApp {
 	 * managers
 	 * 
 	 * @param args
-	 * @throws IOException 
+	 * @throws IOException
 	 */
-	public static void main(String[] args) throws IOException {	
+	public static void main(String[] args) throws IOException {
 		Messenger messenger = SimpleMessenger.getInstance();
 		Persistence storage = new Persistence();
 		Catalog catalog = storage.loadCatalog();
 		if (catalog == null) {
-			catalog = Catalog.getInstance("Java S2", messenger);
+			catalog = new Catalog("Java S2", messenger);
 
 			TraineeCatalogInterface traineeInterface = catalog;
 			Trainee florin = new Trainee("florin", "", messenger, traineeInterface);
 			Trainee radu = new Trainee("radu", "", messenger, traineeInterface);
 			Trainee andrei = new Trainee("andrei", "", messenger, traineeInterface);
 			Trainee ciprian = new Trainee("ciprian", "", messenger, traineeInterface);
-
 
 			SiteManagerCatalogInterface siteManagerInterface = catalog;
 			SiteManager siteManager = new SiteManager("diana", "diana@gmail.com", siteManagerInterface, messenger);
@@ -75,7 +67,7 @@ public class PersistentTrainingCatalogApp {
 			trainer.printGrades("florin");
 			catalog.printCatalog();
 		}
-		
+
 		storage.saveCatalog(catalog);
 
 	}
