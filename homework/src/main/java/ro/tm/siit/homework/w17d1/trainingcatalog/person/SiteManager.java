@@ -7,48 +7,46 @@ import javax.swing.JTable;
 import ro.tm.siit.homework.w17d1.trainingcatalog.Messenger;
 import ro.tm.siit.homework.w17d1.trainingcatalog.SiteManagerCatalogInterface;
 
-public class SiteManager extends Person {
+public class SiteManager extends Employee {
 
 	/**
 	 * logger for this class
 	 */
 	public static final Logger LOGGER = Logger.getGlobal();
 
-	private SiteManagerCatalogInterface siteManagerInterface;
-
 	public SiteManager(String name, String email, SiteManagerCatalogInterface siteManager, Messenger messenger) {
 		super(name, email, messenger);
-		this.siteManagerInterface = siteManager;
-		LOGGER.info("created SiteManager with name " + name + " email " + email + " and access to catalog " + siteManagerInterface);
+		this.employeeInterface = siteManager;
+		LOGGER.info("created SiteManager with name " + name + " email " + email + " and access to catalog " + employeeInterface);
 	}
 
 	public void printGrades(String string) {
-		siteManagerInterface.printGrades(string);
+		employeeInterface.printGrades(string);
 
 	}
 
 	public void printCatalog() {
-		siteManagerInterface.printCatalog();
+		employeeInterface.printCatalog();
 	}
 	
-	public void startTraining(Trainer trainer) {
-		siteManagerInterface.startTraining(trainer);
-	}
-	
-	public void addTrainee(Trainee trainee) {
-		siteManagerInterface.addTrainee(trainee);
-	}
-
-	public void displayGrades(String name, JTable grades) {
-		siteManagerInterface.displayGrades(name, grades);
-	}
-
-	public void displayCatalog(JTable catalog) {
-		siteManagerInterface.displayCatalog(catalog);
+	public void startTraining(Employee trainer) {
+		((SiteManagerCatalogInterface)employeeInterface).startTraining(trainer);
 	}
 
 	public void stopTraining() {
-		siteManagerInterface.stopTraining();
+		((SiteManagerCatalogInterface)employeeInterface).stopTraining();
+	}
+	
+	public void addTrainee(Trainee trainee) {
+		((SiteManagerCatalogInterface)employeeInterface).addTrainee(trainee);
+	}
+
+	public void displayGrades(String name, JTable grades) {
+		employeeInterface.displayGrades(name, grades);
+	}
+
+	public void displayCatalog(JTable catalog) {
+		employeeInterface.displayCatalog(catalog);
 	}
 
 }

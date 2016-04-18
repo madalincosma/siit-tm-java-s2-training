@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 
 import ro.tm.siit.homework.w17d1.trainingcatalog.catalog.Catalog;
 import ro.tm.siit.homework.w17d1.trainingcatalog.messenger.SimpleMessenger;
+import ro.tm.siit.homework.w17d1.trainingcatalog.person.Employee;
 import ro.tm.siit.homework.w17d1.trainingcatalog.person.SiteManager;
 import ro.tm.siit.homework.w17d1.trainingcatalog.person.Trainee;
 import ro.tm.siit.homework.w17d1.trainingcatalog.person.Trainer;
@@ -47,7 +48,7 @@ public class TraineeApp {
 		catalog.setMessenger(messenger);
 
 		TrainerCatalogInterface trainerInterface = catalog;
-		Trainer trainer = new Trainer("madalin", "madalin.cosma@gmail.com", trainerInterface, messenger);
+		Employee trainer = new Trainer("madalin", "madalin.cosma@gmail.com", trainerInterface, messenger);
 
 		SiteManagerCatalogInterface siteManagerInterface = catalog;
 		SiteManager siteManager = new SiteManager("diana", "diana@gmail.com", siteManagerInterface, messenger);
@@ -73,7 +74,7 @@ public class TraineeApp {
 	 * @param siteManager
 	 * @param trainer
 	 */
-	private static void createGUI(Catalog catalog, Messenger messenger, Trainer trainer, SiteManager siteManager) {
+	private static void createGUI(Catalog catalog, Messenger messenger, Employee trainer, SiteManager siteManager) {
 		JFrame window = new JFrame("Trainee");
 		window.setSize(600, 400);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

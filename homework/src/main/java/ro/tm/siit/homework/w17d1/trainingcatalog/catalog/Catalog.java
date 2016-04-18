@@ -17,8 +17,8 @@ import ro.tm.siit.homework.w17d1.trainingcatalog.Messenger;
 import ro.tm.siit.homework.w17d1.trainingcatalog.SiteManagerCatalogInterface;
 import ro.tm.siit.homework.w17d1.trainingcatalog.TraineeCatalogInterface;
 import ro.tm.siit.homework.w17d1.trainingcatalog.TrainerCatalogInterface;
+import ro.tm.siit.homework.w17d1.trainingcatalog.person.Employee;
 import ro.tm.siit.homework.w17d1.trainingcatalog.person.Trainee;
-import ro.tm.siit.homework.w17d1.trainingcatalog.person.Trainer;
 
 /**
  * Catalog class implements TrainerCatalogInterface interface and model a grades
@@ -42,7 +42,7 @@ public final class Catalog
 	private Map<Trainee, List<Integer>> trainees = new HashMap<Trainee, List<Integer>>();
 	private String name;
 	private transient Messenger messenger;
-	private Trainer trainer;
+	private Employee trainer;
 	private Status status = Status.CREATED;
 
 	/**
@@ -86,7 +86,7 @@ public final class Catalog
 	}
 
 	@Override
-	public void startTraining(Trainer trainer) {
+	public void startTraining(Employee trainer) {
 		LOGGER.fine("starting training for " + name + " with trainer " + trainer);
 		if (status == Status.STARTED || status == Status.FINISHED) {
 			LOGGER.warning("cannot start a training when the training is started or finished already");

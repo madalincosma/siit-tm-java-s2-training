@@ -1,7 +1,7 @@
 package ro.tm.siit.homework.w17d1.trainingcatalog;
 
+import ro.tm.siit.homework.w17d1.trainingcatalog.person.Employee;
 import ro.tm.siit.homework.w17d1.trainingcatalog.person.Trainee;
-import ro.tm.siit.homework.w17d1.trainingcatalog.person.Trainer;
 
 /**
  * 
@@ -19,7 +19,7 @@ public interface SiteManagerCatalogInterface extends EmployeeCatalogInterface {
 	 * @param trainer
 	 *            the trainer
 	 */
-	void startTraining(Trainer trainer);
+	void startTraining(Employee trainer);
 
 	/**
 	 * stops the training 
