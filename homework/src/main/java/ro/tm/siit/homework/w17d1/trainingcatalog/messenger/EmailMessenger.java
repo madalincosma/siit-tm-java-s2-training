@@ -4,6 +4,7 @@
 package ro.tm.siit.homework.w17d1.trainingcatalog.messenger;
 
 import java.util.Properties;
+import java.util.logging.Logger;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -20,6 +21,11 @@ import ro.tm.siit.homework.w17d1.trainingcatalog.Messenger;
  *
  */
 public class EmailMessenger implements Messenger {
+
+	/**
+	 * logger for this class
+	 */
+	public static final Logger LOGGER = Logger.getGlobal();
 	
 	private static EmailMessenger instance;
 
@@ -41,10 +47,12 @@ public class EmailMessenger implements Messenger {
 				return new PasswordAuthentication(username, password);
 			}
 		});
+		LOGGER.info("created EmailMessenger with Session " + session);
 	}
 	
 	public static EmailMessenger getInstance() {
 		if (instance == null) {
+			LOGGER.info("created EmailMessenger instance");
 			instance = new EmailMessenger();
 		}
 		return instance;
@@ -59,13 +67,16 @@ public class EmailMessenger implements Messenger {
 	 */
 	@Override
 	public boolean sendMessage(String emailAddress, String subject, String text) {
+		LOGGER.fine("trying to send message to " + emailAddress + " with subject " + subject);
 		try {
 			Message email = new MimeMessage(session);
 			email.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailAddress));
 			email.setSubject(subject);
 			email.setText(text);
 			Transport.send(email);
+			LOGGER.info("sent message to " + emailAddress + " with subject " + subject);
 		} catch (MessagingException e) {
+			LOGGER.warning("failed sending message to " + emailAddress + " with subject " + subject);
 			return false;
 		}
 		return true;

@@ -13,6 +13,16 @@ public interface EmployeeCatalogInterface {
 	void printGrades(String name);
 
 	/**
+	 * displays all grades for a trainee
+	 * 
+	 * @param name
+	 *            the name of the trainee
+	 * @param tableUI
+	 *            the UI component where to display
+	 */
+	void displayGrades(String name, JTable catalog);
+
+	/**
 	 * displays all trainees with their average grade
 	 */
 	void printCatalog();

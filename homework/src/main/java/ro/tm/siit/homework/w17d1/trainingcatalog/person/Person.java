@@ -1,11 +1,17 @@
 package ro.tm.siit.homework.w17d1.trainingcatalog.person;
 
 import java.io.Serializable;
+import java.util.logging.Logger;
 
 import ro.tm.siit.homework.w17d1.trainingcatalog.FeedbackSender;
 import ro.tm.siit.homework.w17d1.trainingcatalog.Messenger;
 
 public abstract class Person implements FeedbackSender, Serializable {
+
+	/**
+	 * logger for this class
+	 */
+	public static final Logger LOGGER = Logger.getGlobal();
 
 	protected String name;
 	
@@ -36,8 +42,10 @@ public abstract class Person implements FeedbackSender, Serializable {
 	@Override
 	public void sendFeedback(Person to) throws IllegalArgumentException {
 		if (this != to) {
+			LOGGER.info("sending feedback to " + to.getEmail() + " from " + email);
 			messenger.sendMessage(to.getEmail(), "my feed", "...");
 		} else {
+			LOGGER.warning("sending feedback to " + to.getEmail() + " from " + email + " is not allowed");
 			throw new IllegalArgumentException("cannot send feedback to self");
 		}
 	}

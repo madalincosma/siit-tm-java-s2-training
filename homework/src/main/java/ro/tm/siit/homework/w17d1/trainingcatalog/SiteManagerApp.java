@@ -22,13 +22,14 @@ import javax.swing.JTextField;
 import ro.tm.siit.homework.w17d1.trainingcatalog.catalog.Catalog;
 import ro.tm.siit.homework.w17d1.trainingcatalog.messenger.SimpleMessenger;
 import ro.tm.siit.homework.w17d1.trainingcatalog.person.SiteManager;
+import ro.tm.siit.homework.w17d1.trainingcatalog.person.Trainee;
 import ro.tm.siit.homework.w17d1.trainingcatalog.person.Trainer;
 
 /**
  * @author mco
  *
  */
-public class TrainerApp {
+public class SiteManagerApp {
 
 	/**
 	 * logger for this class
@@ -39,15 +40,10 @@ public class TrainerApp {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new Logging().configure("catalog-trainer.log");
-
+		new Logging().configure("catalog-manager.log");
 		Messenger messenger = SimpleMessenger.getInstance();
 		Persistence storage = new Persistence();
-		Catalog catalog = storage.loadCatalog();
-		if (catalog == null) {
-			LOGGER.severe("no catalog available");
-			return;
-		}
+		Catalog catalog = getCatalog(messenger, storage);
 		catalog.setMessenger(messenger);
 
 		TrainerCatalogInterface trainerInterface = catalog;
@@ -65,8 +61,15 @@ public class TrainerApp {
 			}
 		});
 		
-		LOGGER.info("TrainerApp started");
+		LOGGER.info("SiteManagerApp started");
+	}
 
+	private static Catalog getCatalog(Messenger messenger, Persistence storage) {
+		Catalog catalog = storage.loadCatalog();
+		if (catalog == null) {
+			catalog = new Catalog("Java S2", messenger);
+		}
+		return catalog;
 	}
 
 	private static void save(Catalog catalog) {
@@ -84,40 +87,110 @@ public class TrainerApp {
 	 * @param trainer
 	 */
 	private static void createGUI(Catalog catalog, Messenger messenger, Trainer trainer, SiteManager siteManager) {
-		JFrame window = new JFrame("Trainer");
+		JFrame window = new JFrame("SiteManager");
 		window.setSize(600, 400);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		window.getContentPane().setLayout(new GridLayout(2, 1));
+		window.getContentPane().setLayout(new GridLayout(2, 2));
 
-		JPanel addGradePanel = createAddGradePanel(trainer);
+		JPanel addGradePanel = createAddTraineePanel(siteManager, catalog, messenger);
 		window.add(addGradePanel);
-		JPanel traineeGradesAndCatalogPanel = new JPanel();
-		window.add(traineeGradesAndCatalogPanel);
-		traineeGradesAndCatalogPanel.setLayout(new GridLayout(1, 2));
 
-		JPanel viewGradesPanel = createViewGradesPanel(trainer);
-		traineeGradesAndCatalogPanel.add(viewGradesPanel);
+		JPanel trainingMgmtPanel = createTrainingMgmtPanel(siteManager, trainer);
+		window.add(trainingMgmtPanel);
+
+		JPanel viewGradesPanel = createViewGradesPanel(siteManager);
+		window.add(viewGradesPanel);
 
 		// creates display catalog panel
-		JPanel catalogPanel = createCatalogPanel(trainer);
-		traineeGradesAndCatalogPanel.add(catalogPanel);
+		JPanel catalogPanel = createCatalogPanel(siteManager);
+		window.add(catalogPanel);
 
 		// listeners that saves catalog on exit
 		window.addWindowListener(new WindowAdapter() {
 
 			@Override
 			public void windowClosing(WindowEvent e) {
+				LOGGER.fine("saving catalog " + catalog);
 				save(catalog);
+				LOGGER.info("window closed successfully and catalog saved");
 			}
 
 		});
 
 		window.setVisible(true);	
-		LOGGER.info("TrainerApp GUI available");
+		LOGGER.info("SiteManagerApp GUI available");
 	}
 
-	private static JPanel createViewGradesPanel(Trainer trainer) {
+	private static JPanel createTrainingMgmtPanel(SiteManager siteManager, Trainer trainer) {
+		JPanel trainingMgmtPanel = new JPanel();
+		JButton startBtn = new JButton("Start");
+		trainingMgmtPanel.add(startBtn);
+		startBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				LOGGER.fine("starting training with trainer " + trainer);
+				try {
+					siteManager.startTraining(trainer);
+				} catch (IllegalStateException e1) {
+					LOGGER.warning("failed starting training " + e1);
+					JOptionPane.showMessageDialog(trainingMgmtPanel, e1.getMessage());
+				}
+
+			}
+		});
+		JButton stopBtn = new JButton("Stop");
+		trainingMgmtPanel.add(stopBtn);
+		stopBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				LOGGER.fine("stopping training ");
+				try {
+					siteManager.stopTraining();
+				} catch (IllegalStateException e1) {
+					LOGGER.warning("failed stopping training " + e1);
+					JOptionPane.showMessageDialog(trainingMgmtPanel, e1.getMessage());
+				}
+
+			}
+		});
+		return trainingMgmtPanel;
+	}
+
+	private static JPanel createAddTraineePanel(SiteManager siteManager, Catalog catalog, Messenger messenger) {
+		JPanel addTraineePanel = new JPanel();
+		addTraineePanel.setLayout(new GridLayout(1, 5));
+		JLabel nameLabel = new JLabel("Name ");
+		addTraineePanel.add(nameLabel);
+		JTextField name = new JTextField("");
+		addTraineePanel.add(name);
+		JLabel emailLabel = new JLabel("Email ");
+		addTraineePanel.add(emailLabel);
+		JTextField email = new JTextField("");
+		addTraineePanel.add(email);
+		JButton addBtn = new JButton("Add Trainee");
+		addTraineePanel.add(addBtn);
+		addBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				LOGGER.fine("adding trainee " + name.getText());
+				try {
+					Trainee trainee = new Trainee(name.getText(), email.getText(), messenger, catalog);
+					siteManager.addTrainee(trainee);
+				} catch (IllegalStateException e1) {
+					LOGGER.warning("failed adding trainee " + name.getText() + " " + e1);
+					JOptionPane.showMessageDialog(addTraineePanel, e1.getMessage());
+				}
+
+			}
+		});
+		return addTraineePanel;
+	}
+
+	private static JPanel createViewGradesPanel(SiteManager siteManager) {
 		JPanel viewGradesPanel = new JPanel();
 		viewGradesPanel.setLayout(new GridLayout(3, 1));
 
@@ -138,7 +211,7 @@ public class TrainerApp {
 			public void actionPerformed(ActionEvent e) {
 				LOGGER.fine("displaying trainee grades for " + name.getText());
 				try {
-					trainer.displayGrades(name.getText(), grades);
+					siteManager.displayGrades(name.getText(), grades);
 				} catch (IllegalArgumentException e1) {
 					LOGGER.warning("failed displaying trainee grades for " + name.getText() + " " + e1);
 					JOptionPane.showMessageDialog(viewGradesPanel, e1.getMessage());
@@ -152,7 +225,7 @@ public class TrainerApp {
 		return viewGradesPanel;
 	}
 
-	private static JPanel createCatalogPanel(Trainer trainer) {
+	private static JPanel createCatalogPanel(SiteManager siteManager) {
 		JPanel catalogPanel = new JPanel();
 		catalogPanel.setLayout(new GridLayout(2, 1));
 		JButton viewBtn = new JButton("View catalog");
@@ -162,7 +235,7 @@ public class TrainerApp {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				trainer.displayCatalog(catalog);
+				siteManager.displayCatalog(catalog);
 
 			}
 		});
@@ -170,42 +243,6 @@ public class TrainerApp {
 		catalog.setFillsViewportHeight(true);
 		catalogPanel.add(scrollPane);
 		return catalogPanel;
-	}
-
-	private static JPanel createAddGradePanel(Trainer trainer) {
-		JPanel addGradePanel = new JPanel();
-		addGradePanel.setLayout(new GridLayout(1, 5));
-		JLabel nameLabel = new JLabel("Name ");
-		addGradePanel.add(nameLabel);
-		JTextField name = new JTextField("");
-		addGradePanel.add(name);
-		JLabel gradeLabel = new JLabel("Grade ");
-		addGradePanel.add(gradeLabel);
-		JTextField grade = new JTextField("");
-		addGradePanel.add(grade);
-		JButton addBtn = new JButton("Add Grade");
-		addGradePanel.add(addBtn);
-		addBtn.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				LOGGER.fine("adding trainee grade " + grade.getText() + " for " + name.getText());
-				try {
-					trainer.addGrade(name.getText(), Integer.parseInt(grade.getText()));
-				} catch (NumberFormatException e1) {
-					LOGGER.warning("failed adding trainee " + name.getText() + " " + e1);
-					JOptionPane.showMessageDialog(addGradePanel, e1.getMessage());
-				} catch (IllegalArgumentException e1) {
-					LOGGER.warning("failed adding trainee " + name.getText() + " " + e1);
-					JOptionPane.showMessageDialog(addGradePanel, e1.getMessage());
-				} catch (IllegalStateException e1) {
-					LOGGER.warning("failed adding trainee " + name.getText() + " " + e1);
-					JOptionPane.showMessageDialog(addGradePanel, e1.getMessage());
-				}
-
-			}
-		});
-		return addGradePanel;
 	}
 
 }

@@ -6,6 +6,7 @@ package ro.tm.siit.homework.w17d1.trainingcatalog;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -26,15 +27,21 @@ import ro.tm.siit.homework.w17d1.trainingcatalog.person.Trainer;
 public class TraineeApp {
 
 	/**
+	 * logger for this class
+	 */
+	public static final Logger LOGGER = Logger.getGlobal();
+
+	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		new Logging().configure("catalog-trainee.log");
 
 		Messenger messenger = SimpleMessenger.getInstance();
 		Persistence storage = new Persistence();
 		Catalog catalog = storage.loadCatalog();
 		if (catalog  == null) {
-			System.out.println("no catalog available");
+			LOGGER.severe("no catalog available");
 			return;
 		}
 		catalog.setMessenger(messenger);
@@ -53,6 +60,8 @@ public class TraineeApp {
 				createGUI(catalog, messenger, trainer, siteManager);
 			}
 		});
+		
+		LOGGER.info("TraineeApp started");
 
 	}
 
@@ -89,6 +98,7 @@ public class TraineeApp {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				LOGGER.fine("looking up trainee " + name.getText());
 				try {
 					Trainee trainee = catalog.find(name.getText());
 					gradeLabel1.setText(trainee.getLastGrade() + "");
@@ -96,6 +106,7 @@ public class TraineeApp {
 					name.setEnabled(false);
 					feedbackBtn.setEnabled(true);
 				} catch (IllegalArgumentException ex) {
+					LOGGER.warning("failed looking up trainee " + name.getText());
 					JOptionPane.showMessageDialog(window, "The trainee does not exist.");
 				}
 
@@ -106,19 +117,23 @@ public class TraineeApp {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				LOGGER.fine("sending feedback from " + name.getText());
 				try {
 					Trainee trainee = catalog.find(name.getText());
 					trainee.sendFeedback(trainer);
 					feedbackBtn.setEnabled(false);
 					JOptionPane.showMessageDialog(window, "The feedback has been sent to " + trainer.getName());
+					LOGGER.info("sent feedback message from " + name.getText() + " to " + trainer.getEmail());
 				} catch (IllegalArgumentException ex) {
+					LOGGER.warning("failed sending lookup from " + name.getText() + " " + ex);
 					JOptionPane.showMessageDialog(window, ex.getMessage());
 				}
 
 			}
 		});
 
-		window.setVisible(true);
+		window.setVisible(true);		
+		LOGGER.info("TraineeApp GUI available");
 	}
 
 }
