@@ -3,7 +3,11 @@
  */
 package ro.tm.siit.homework.w17d1.trainingcatalog;
 
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Logger;
@@ -12,7 +16,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import ro.tm.siit.homework.w17d1.trainingcatalog.catalog.Catalog;
 import ro.tm.siit.homework.w17d1.trainingcatalog.messenger.SimpleMessenger;
@@ -76,24 +82,48 @@ public class TraineeApp {
 	 */
 	private static void createGUI(Catalog catalog, Messenger messenger, Employee trainer, SiteManager siteManager) {
 		JFrame window = new JFrame("Trainee");
-		window.setSize(600, 400);
+		window.setSize(400, 300);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		window.getContentPane().setLayout(new GridLayout(2, 3));
-
+		window.getContentPane().setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.insets = new Insets(10, 10, 30, 10);
+		
 		JLabel nameLabel = new JLabel("Name ");
-		window.add(nameLabel);
-		JTextField name = new JTextField("");
-		window.add(name);
+		nameLabel.setHorizontalAlignment((SwingConstants.LEFT));
+		c.gridx = 0;
+		c.gridy = 0;
+		c.fill = GridBagConstraints.FIRST_LINE_START;
+		c.insets = new Insets(30, 10, 30, 0);
+		window.add(nameLabel, c);
+		JTextField name = new JTextField();
+		name.setPreferredSize(new Dimension(100,20));
+		name.setMinimumSize(name.getPreferredSize());
+		c.gridx = 1;
+		c.gridy = 0;
+		c.insets = new Insets(30, 0, 30, 0);
+		window.add(name, c);
 		JButton nameBtn = new JButton("Validate");
-		window.add(nameBtn);
+		c.gridx = 2;
+		c.gridy = 0;
+		c.insets = new Insets(30, 0, 30, 10);
+		window.add(nameBtn, c);
+
 		JLabel gradeLabel = new JLabel("Your last grade is ");
-		window.add(gradeLabel);
+		c.gridx = 0;
+		c.gridy = 1;
+		window.add(gradeLabel, c);
 		JLabel gradeLabel1 = new JLabel();
-		window.add(gradeLabel1);
+		gradeLabel1.setPreferredSize(new Dimension(100,20));
+		gradeLabel1.setMinimumSize(gradeLabel1.getPreferredSize());
+		c.gridx = 1;
+		c.gridy = 1;
+		window.add(gradeLabel1, c);
 		JButton feedbackBtn = new JButton("Send Feedback");
 		feedbackBtn.setEnabled(false);
-		window.add(feedbackBtn);
+		c.gridx = 2;
+		c.gridy = 1;
+		window.add(feedbackBtn, c);
 
 		nameBtn.addActionListener(new ActionListener() {
 
@@ -133,6 +163,7 @@ public class TraineeApp {
 			}
 		});
 
+		window.pack();
 		window.setVisible(true);		
 		LOGGER.info("TraineeApp GUI available");
 	}
